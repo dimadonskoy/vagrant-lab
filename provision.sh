@@ -85,15 +85,15 @@ install_software() {
     log "Software installation completed."
 }
 
-# Install python libraries
-python_libs=("python3-flask" "python3-flask-mail" "python3-requests" "python3-netifaces" "python3-paramiko")
-install_python_libs() {
-    log "Installing Python libraries..."
-    for lib in "${python_libs[@]}"; do
-        apt-get install -y "$lib"
-    done
-    log "Python libraries installation completed."
-}
+# # Install python libraries
+# python_libs=("python3-flask" "python3-flask-mail" "python3-requests" "python3-netifaces")
+# install_python_libs() {
+#     log "Installing Python libraries..."
+#     for lib in "${python_libs[@]}"; do
+#         apt-get install -y "$lib"
+#     done
+#     log "Python libraries installation completed."
+# }
 
 # Configure vim
 configure_vim() {
@@ -140,7 +140,7 @@ set_git_config() {
 # Main execution
 update_ubuntu
 install_software
-install_python_libs
+# install_python_libs
 configure_vim
 set_alias
 set_git_config
