@@ -124,7 +124,7 @@ set_alias() {
     grep -qxF "alias myip='ip -o -4 addr show | awk \"{print \\\$2, \\\$4}\"'" "$BASHRC" || echo "alias myip='ip -o -4 addr show | awk \"{print \\\$2, \\\$4}\"'" >> "$BASHRC"
     grep -qxF "alias gateway='ip r | awk \"/default/ {print \\\$3}\"'" "$BASHRC" || echo "alias gateway='ip r | awk \"/default/ {print \\\$3}\"'" >> "$BASHRC"
     # Prompt
-    PROMPT_FUNC='parse_git_branch() {\n    git branch 2>/dev/null | sed -n "/\\* /s///p"\n}\n\nexport PS1="\\[\\e[32m\\]\\u@\\h \\[\\e[34m\\]\\w\\[\\e[33m\\] \\$(parse_git_branch)\\[\\e[0m\\] $ "'
+    PROMPT_FUNC='parse_git_branch() {\n    git branch 2>/dev/null | sed -n "/\\* /s///p"\n}\n\nexport PS1="\\[\\e[32m\\]\\u@\\h \\[\\e[34m\\]\\w\\[\\e[33m\\] \\$(parse_git_branch)\\[\\e[0m\\] \n$ "'
     grep -qxF "parse_git_branch() {" "$BASHRC" || echo -e "$PROMPT_FUNC" >> "$BASHRC"
     log "Aliases and prompt added to .bashrc."
 }
