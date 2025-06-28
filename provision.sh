@@ -2,7 +2,7 @@
 #######################################################################
 # Developed by : Dmitri Donskoy
 # Purpose : Install my environment GLOBAL CONFIGURATION
-# Date : 15.02.2025
+# Date : 27.06.2025
 # Version : 0.0.1
 set -o errexit
 set -o nounset
@@ -85,16 +85,6 @@ install_software() {
     log "Software installation completed."
 }
 
-# # Install python libraries
-# python_libs=("python3-flask" "python3-flask-mail" "python3-requests" "python3-netifaces")
-# install_python_libs() {
-#     log "Installing Python libraries..."
-#     for lib in "${python_libs[@]}"; do
-#         apt-get install -y "$lib"
-#     done
-#     log "Python libraries installation completed."
-# }
-
 # Configure vim
 configure_vim() {
     log "Configuring Vim..."
@@ -135,6 +125,37 @@ set_git_config() {
     git config --global user.email "$GIT_USER_EMAIL"
     git config --global user.name "$GIT_USER_NAME"
     log "Git configuration completed."
+}
+
+# Install SSH public key
+install_ssh_key() {
+    log "Installing SSH public key..."
+    
+    # Your public key
+    PUBLIC_KEY="ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIAtN4mKVEgWq/OI6OEDK8nZYv04MuEHyEDJGXO5o+f2L crooper@Dmitris-MBP.lan"
+    
+    # Create .ssh directory if it doesn't exist
+    SSH_DIR="$USER_HOME/.ssh"
+    mkdir -p "$SSH_DIR"
+    chmod 700 "$SSH_DIR"
+    
+    # Add public key to authorized_keys
+    AUTHORIZED_KEYS="$SSH_DIR/authorized_keys"
+    touch "$AUTHORIZED_KEYS"
+    chmod 600 "$AUTHORIZED_KEYS"
+    
+    # Check if key already exists to avoid duplicates
+    if ! grep -q "$PUBLIC_KEY" "$AUTHORIZED_KEYS"; then
+        echo "$PUBLIC_KEY" >> "$AUTHORIZED_KEYS"
+        log "SSH public key added to authorized_keys"
+    else
+        log "SSH public key already exists in authorized_keys"
+    fi
+    
+    # Set proper ownership
+    chown -R "${SUDO_USER:-$USER}:${SUDO_USER:-$USER}" "$SSH_DIR"
+    
+    log "SSH key installation completed."
 }
 
 # --- Disk Resize Automation ---
@@ -202,7 +223,7 @@ disk_resize() {
 disk_resize
 update_ubuntu
 install_software
-# install_python_libs
 configure_vim
 set_alias
 set_git_config
+install_ssh_key
