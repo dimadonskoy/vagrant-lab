@@ -1,0 +1,9 @@
+.vagrant/
+.vscode/
+.DS_Store
+.idea/
+.vscode/
+.vscode/
+.git
+.box
+*.box
